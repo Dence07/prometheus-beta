@@ -77,5 +77,9 @@ def kruskal_mst(graph):
         # If including this edge doesn't create a cycle, add it to MST
         if disjoint_set.union(u, v):
             minimum_spanning_tree.append((weight, u, v))
+            
+            # Stop when we have V-1 edges (vertices - 1)
+            if len(minimum_spanning_tree) == vertices - 1:
+                break
 
     return minimum_spanning_tree
