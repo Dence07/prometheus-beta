@@ -63,20 +63,21 @@ def test_kruskal_mst_complex_graph():
     
     mst = kruskal_mst(graph)
     
-    # Compute the total weight of the MST
-    mst_total_weight = sum(weight for weight, _, _ in mst)
+    # Create a DisjointSet to check connectivity
+    max_vertex = max(max(u, v) for _, u, v in graph)
+    ds = DisjointSet(max_vertex + 1)
     
-    # Verify that each selected edge connects disjoint components
-    vertices_in_mst = set()
-    for _, u, v in mst:
-        # Ensure no cycle is formed
-        assert u not in vertices_in_mst or v not in vertices_in_mst
-        vertices_in_mst.update([u, v])
+    # Add edges and check connectivity
+    connected_vertices = set()
+    for weight, u, v in mst:
+        # Add the edge, marking its vertices as connected
+        ds.union(u, v)
+        connected_vertices.update([u, v])
     
-    # The total number of vertices in the graph is 9 (0-8)
-    # So the MST should have 8 vertices connected by 7 edges
-    assert len(vertices_in_mst) <= 9
-    assert len(mst) == 7  # V-1 edges for 9 vertices
+    # Verify MST properties
+    assert len(mst) == 7  # V-1 edges for a graph with 9 vertices (0-8)
+    assert all(ds.find(u) == ds.find(v) for _, u, v in mst)  # All vertices connected
+    assert len(connected_vertices) == 9  # All 9 vertices connected
 
 def test_kruskal_mst_empty_graph():
     """Test Kruskal's algorithm with an empty graph."""
