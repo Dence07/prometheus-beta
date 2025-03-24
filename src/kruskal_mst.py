@@ -72,14 +72,17 @@ def kruskal_mst(graph):
     disjoint_set = DisjointSet(vertices)
     minimum_spanning_tree = []
 
+    # Number of edges in MST should be vertices - 1
+    target_edges = vertices - 1
+
     # Process each edge
     for weight, u, v in graph:
         # If including this edge doesn't create a cycle, add it to MST
         if disjoint_set.union(u, v):
             minimum_spanning_tree.append((weight, u, v))
             
-            # Stop when we have V-1 edges (vertices - 1)
-            if len(minimum_spanning_tree) == vertices - 1:
+            # Stop when we have V-1 edges (or when all vertices are connected)
+            if len(minimum_spanning_tree) == target_edges:
                 break
 
     return minimum_spanning_tree
