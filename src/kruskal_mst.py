@@ -11,6 +11,7 @@ class DisjointSet:
         """
         self.parent = list(range(vertices))
         self.rank = [0] * vertices
+        self.components = vertices
 
     def find(self, item):
         """
@@ -45,6 +46,9 @@ class DisjointSet:
         if self.rank[root_x] == self.rank[root_y]:
             self.rank[root_x] += 1
 
+        # Reduce number of components
+        self.components -= 1
+
         return True
 
 def kruskal_mst(graph):
@@ -72,17 +76,14 @@ def kruskal_mst(graph):
     disjoint_set = DisjointSet(vertices)
     minimum_spanning_tree = []
 
-    # Number of edges in MST should be vertices - 1
-    target_edges = vertices - 1
-
     # Process each edge
     for weight, u, v in graph:
         # If including this edge doesn't create a cycle, add it to MST
         if disjoint_set.union(u, v):
             minimum_spanning_tree.append((weight, u, v))
             
-            # Stop when we have V-1 edges (or when all vertices are connected)
-            if len(minimum_spanning_tree) == target_edges:
+            # Stop when all components are connected (or MST has V-1 edges)
+            if disjoint_set.components == 1:
                 break
 
     return minimum_spanning_tree
