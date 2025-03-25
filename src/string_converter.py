@@ -34,14 +34,19 @@ def to_kebab_case(s: str) -> str:
     
     # Replace non-alphanumeric characters with hyphens
     import re
+    import unicodedata
+    
+    # Normalize unicode characters
+    s = unicodedata.normalize('NFKD', s)
     
     # Convert camelCase and PascalCase to hyphen-separated
     s = re.sub(r'(?<!^)(?=[A-Z])', '-', s)
     
-    # Replace underscores, spaces, and other non-alphanumeric characters with hyphens
-    s = re.sub(r'[^a-zA-Z0-9]+', '-', s)
+    # Replace underscores, non-letter characters with spaces first
+    s = re.sub(r'[_\W]', ' ', s)
     
-    # Convert to lowercase and remove leading/trailing hyphens
-    s = s.lower().strip('-')
+    # Split on multiple whitespaces and filter meaningful parts 
+    words = [word for word in s.split() if word]
     
-    return s
+    # Convert to lowercase 
+    return '-'.join(word.lower() for word in words)
