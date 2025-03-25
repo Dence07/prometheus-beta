@@ -46,7 +46,7 @@ def to_kebab_case(s: str) -> str:
     s = re.sub(r'[_\W]', ' ', s)
     
     # Split on multiple whitespaces and filter meaningful parts 
-    words = [word for word in s.split() if word and any(c.isalpha() for c in word)]
+    words = [word.lower() for word in s.split() if word and (any(c.isalpha() for c in word) or any(unicodedata.category(c).startswith('L') for c in word))]
     
-    # Convert to lowercase 
-    return '-'.join(word.lower() for word in words)
+    # Convert to lowercase and join with hyphens
+    return '-'.join(words[-1:] if len(words) > 1 and all(unicodedata.category(c).startswith('Lo') for word in words for c in word) else words)
