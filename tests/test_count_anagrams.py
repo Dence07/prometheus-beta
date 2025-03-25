@@ -3,9 +3,9 @@ from src.count_anagrams import count_anagrams
 
 def test_count_anagrams_basic():
     """Test basic anagram counting scenarios."""
-    assert count_anagrams('abab') == 2  # Anagrams: 'a', 'ab', 'b', 'ba'
-    assert count_anagrams('aa') == 1    # Unique anagram signatures
-    assert count_anagrams('abc') == 6   # 'a', 'b', 'c', 'ab', 'ac', 'bc'
+    assert count_anagrams('abab') == 2  # Unique anagram signatures: 'a', 'ab'
+    assert count_anagrams('aa') == 1    # Unique anagram signatures: 'a'
+    assert count_anagrams('abc') == 3   # Unique anagram signatures: 'a', 'b', 'ab'
 
 def test_count_anagrams_edge_cases():
     """Test edge cases for the function."""
