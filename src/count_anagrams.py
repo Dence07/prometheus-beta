@@ -1,4 +1,5 @@
 from typing import List, Dict
+from collections import defaultdict
 
 def count_anagrams(s: str) -> int:
     """
@@ -25,20 +26,20 @@ def count_anagrams(s: str) -> int:
     if not s or not all(c.islower() for c in s):
         raise ValueError("Input must be a non-empty string of lowercase letters")
     
-    # Set to store unique sorted anagram signatures
+    # Use a set of sorted character tuples to count unique anagrams
     unique_anagrams = set()
     
-    # Generate all possible substrings
-    for i in range(len(s)):
-        for j in range(i + 1, len(s) + 1):
-            # Get current substring
-            substring = s[i:j]
+    # Iterate through all possible substrings
+    for length in range(1, len(s) + 1):
+        for start in range(len(s) - length + 1):
+            # Extract substring
+            substring = s[start:start+length]
             
-            # Create a sorted signature to identify anagrams
-            sorted_substring = ''.join(sorted(substring))
+            # Create a sorted signature of characters as a tuple
+            sorted_chars = tuple(sorted(substring))
             
-            # Add to set of unique anagram signatures
-            unique_anagrams.add(sorted_substring)
+            # Add to unique anagrams
+            unique_anagrams.add(sorted_chars)
     
     # Return the count of unique anagram signatures
     return len(unique_anagrams)
