@@ -1,11 +1,10 @@
-from typing import List, Dict
-from collections import defaultdict
+from typing import List, Set
 
 def count_anagrams(s: str) -> int:
     """
     Count the number of distinct anagram substrings in the given string.
     
-    An anagram is a substring that contains the same characters in a different order.
+    An anagram is considered distinct based on its sorted character signature.
     
     Args:
         s (str): Input string containing only lowercase English letters.
@@ -26,20 +25,26 @@ def count_anagrams(s: str) -> int:
     if not s or not all(c.islower() for c in s):
         raise ValueError("Input must be a non-empty string of lowercase letters")
     
-    # Use a set of sorted character tuples to count unique anagrams
-    unique_anagrams = set()
+    # Use a set to store unique anagram signatures
+    unique_anagrams: Set[str] = set()
     
-    # Iterate through all possible substrings
+    # For each possible substring length
     for length in range(1, len(s) + 1):
+        # Track unique signatures for this length
+        signatures_for_length = set()
+        
+        # Check all substrings of current length
         for start in range(len(s) - length + 1):
             # Extract substring
             substring = s[start:start+length]
             
-            # Create a sorted signature of characters as a tuple
-            sorted_chars = tuple(sorted(substring))
+            # Create sorted signature
+            signature = ''.join(sorted(substring))
             
-            # Add to unique anagrams
-            unique_anagrams.add(sorted_chars)
+            # If this is the first occurrence of this signature for this length
+            if signature not in signatures_for_length:
+                signatures_for_length.add(signature)
+                unique_anagrams.add(signature)
     
     # Return the count of unique anagram signatures
     return len(unique_anagrams)
