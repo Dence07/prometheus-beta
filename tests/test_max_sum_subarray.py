@@ -33,7 +33,7 @@ def test_invalid_input_non_list():
 
 def test_large_numbers():
     """Test an array with large numbers."""
-    assert max_sum_subarray([1000000, -500000, 700000, -200000]) == 1000000
+    assert max_sum_subarray([1000000, -500000, 700000, -200000]) == 1200000
 
 def test_alternating_signs():
     """Test an array with alternating positive and negative signs."""
