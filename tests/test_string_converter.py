@@ -38,6 +38,7 @@ def test_to_kebab_case_invalid_input():
         to_kebab_case(123)
 
 def test_to_kebab_case_unicode():
+    # different behavior for mixed unicode/latin strings vs pure unicode
     assert to_kebab_case("こんにちは World") == "world"
     assert to_kebab_case("Hello-世界") == "hello-世界"
     assert to_kebab_case("こんにちは世界") == "こんにちは-世界"
