@@ -36,7 +36,7 @@ def to_kebab_case(s: str) -> str:
     import re
     import unicodedata
     
-    # Normalize unicode characters
+    # Normalize unicode characters and decompose
     s = unicodedata.normalize('NFKD', s)
     
     # Convert camelCase and PascalCase to hyphen-separated
@@ -46,7 +46,7 @@ def to_kebab_case(s: str) -> str:
     s = re.sub(r'[_\W]', ' ', s)
     
     # Split on multiple whitespaces and filter meaningful parts 
-    words = [word for word in s.split() if word]
+    words = [word for word in s.split() if word and any(c.isalpha() for c in word)]
     
     # Convert to lowercase 
     return '-'.join(word.lower() for word in words)
