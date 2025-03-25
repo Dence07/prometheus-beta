@@ -27,8 +27,9 @@ def test_to_kebab_case_edge_cases():
     assert to_kebab_case("A") == "a"
 
 def test_to_kebab_case_special_characters():
-    assert to_kebab_case("hello@world") == "helloworld"
+    assert to_kebab_case("hello@world") == "hello-world"
     assert to_kebab_case("hello world!") == "hello-world"
+    assert to_kebab_case("hello---world") == "hello-world"
 
 def test_to_kebab_case_invalid_input():
     with pytest.raises(TypeError):
